@@ -35,15 +35,3 @@ class AbstractUser:
             ]
         )
 
-    # def update_user_alias_email(self):
-    #     print("Start Update user alias email {}".format(self.username))
-    #     self.boto3_client.admin_update_user_attributes(
-    #         UserPoolId=self.user_pool_id,
-    #         Username=self.username,
-    #         UserAttributes=[
-    #             {
-    #                 'Name': 'custom:alias_email',
-    #                 'Value': self.email
-    #             }
-    #         ]
-    #     )

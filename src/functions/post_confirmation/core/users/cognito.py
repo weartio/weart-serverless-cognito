@@ -33,18 +33,3 @@ class Cognito(AbstractUser):
             "phone_number": self.phone_number,
             "user_pool_id": self.user_pool_id
         }
-
-    # @staticmethod
-    # def create_custom_cognito_user(social_user, native_user_username):
-    #     cognito_user_attributes = {
-    #         'email': social_user.email,
-    #         'name': social_user.first_name,
-    #         'family_name': social_user.last_name,
-    #         'picture': social_user.picture
-    #     }
-    #
-    #     print("Start Creating custom cognito user for {}".format(native_user_username))
-    #     cognito_user = Cognito(cognito_user_attributes, social_user.user_group, native_user_username)
-    #     print("Custom Cognito User data {}".format(cognito_user))
-    #
-    #     return cognito_user

@@ -1,9 +1,9 @@
-from . import EMAIL, GOOGLE, APPLE
+from . import EMAIL, GOOGLE, APPLE, ADMIN
 from .abstract_user import AbstractUser
 from .apple import Apple
 from .cognito import Cognito
 from .google import Google
-
+from .admin import Admin
 
 class UserFactory:
 
@@ -21,7 +21,7 @@ class UserFactory:
             return Google(username, cognito_id, user_pool_id, email, phone_number, first_name, last_name)
         elif provider_type == APPLE:
             return Apple(username, cognito_id, user_pool_id, email)
-        # elif provider_type == ADMIN:
-        #     return Admin(user_attributes, user_group, username, user_pool_id)
+        elif provider_type == ADMIN:
+            return Admin(username, cognito_id, user_pool_id, email, phone_number)
         else:
             raise Exception("Not supported registration method")

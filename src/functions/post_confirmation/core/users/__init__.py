@@ -4,12 +4,25 @@ import os
 import boto3
 
 from .abstract_user import AbstractUser
+import random
+import string
 
 FACEBOOK = "FACEBOOK"
 GOOGLE = "GOOGLE"
 APPLE = "APPLE"
 EMAIL = "EMAIL"
 ADMIN = "ADMIN"
+
+
+def get_random_string(length):
+    """
+    Generate random string
+    :param length:
+    :return:
+    """
+    letters = string.ascii_lowercase
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    return result_str
 
 
 def list_similar_users(client, user_pool_id, email, username):
@@ -77,8 +90,6 @@ def create_native_user(client, user_pool_id, email):
                 'Value': 'string'
             },
         ],
-        # TemporaryPassword='string',
-        # ForceAliasCreation=False,
         MessageAction='SUPPRESS',
         DesiredDeliveryMediums=[
             'EMAIL',
@@ -88,8 +99,7 @@ def create_native_user(client, user_pool_id, email):
     client.admin_set_user_password(
         UserPoolId=user_pool_id,
         Username=email,
-        # @TODO: create random password
-        Password='S7s@2020',
+        Password=get_random_string(8),
         Permanent=True
     )
     return user
