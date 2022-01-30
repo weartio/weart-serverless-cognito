@@ -1,0 +1,75 @@
+functions:
+  customEmailSender:
+    runtime: nodejs12.x
+    handler: ${self:custom.cognito.functionsPath}/verification_message/email.handler
+    awsKmsKeyArn: !GetAtt KmsKey.Arn
+    environment:
+      KEY_ID: !GetAtt KmsKey.Arn
+      SENDGRID_KEY: ${env:SENDGRID_KEY}
+      SENDGRID_TEMPLATE_ID: ${env:SENDGRID_TEMPLATE_ID}
+      SENDER_EMAIL: ${env:SENDER_EMAIL}
+      SLACK_WEBHOOK_URL: ${env:SLACK_WEBHOOK_URL}
+      STAGE: ${self:provider.stage}
+    timeout: 10 # optional, in seconds, default is 6
+    role: LambdaTriggerRole
+
+  customSMSSender:
+    runtime: nodejs12.x
+    handler: ${self:custom.cognito.functionsPath}/verification_message/sms.handler
+    awsKmsKeyArn: !GetAtt KmsKey.Arn
+    environment:
+      KEY_ID: !GetAtt KmsKey.Arn
+      TWILLIO_ACCOUNT_SID: ${env:TWILLIO_ACCOUNT_SID}
+      TWILLIO_AUTH_TOKEN: ${env:TWILLIO_AUTH_TOKEN}
+      TWILLIO_SENDING_NUMBER: ${env:TWILLIO_SENDING_NUMBER}
+      SLACK_WEBHOOK_URL: ${env:SLACK_WEBHOOK_URL}
+      STAGE: ${self:provider.stage}
+    timeout: 10 # optional, in seconds, default is 6
+    role: LambdaTriggerRole
+
+  notifySlack:
+    runtime: python3.8
+    handler: ${self:custom.cognito.functionsPath}/notify_slack/handler.handler
+    package:
+      include:
+        - "${self:custom.cognito.functionsPath}/notify_slack/handler.py"
+    events:
+      - sns:
+          arn: !Ref NewUserTopic
+          topicName: ${self:custom.currentStage}-new-user
+
+    environment:
+      SLACK_WEBHOOK_URL: ${env:SLACK_WEBHOOK_URL}
+
+  postConfirmation:
+    runtime: python3.8
+    handler: ${self:custom.cognito.functionsPath}/post_confirmation/handler.handler
+    package:
+      include:
+        - "${self:custom.cognito.functionsPath}/post_confirmation/handler.py"
+        - "${self:custom.cognito.functionsPath}/post_confirmation/**/*"
+
+    events:
+      - cognitoUserPool:
+          pool: ${self:custom.currentStage}-users
+          trigger: PostConfirmation
+          existing: true
+          forceDeploy: true
+    environment:
+      PUBLISH_TOPIC_ARN: !Ref NewUserTopic
+    role: CognitoFunctionsRole
+
+  preSignUp:
+    runtime: python3.8
+    handler: ${self:custom.cognito.functionsPath}/pre_signup/handler.handler
+    package:
+      include:
+        - "${self:custom.cognito.functionsPath}/pre_signup/handler.py"
+    environment:
+      PLATFORM_ALLOWED_SCOPE: ${env:PLATFORM_ALLOWED_SCOPE}
+    events:
+      - cognitoUserPool:
+          pool: ${self:custom.currentStage}-users
+          trigger: PreSignUp
+          existing: true
+          forceDeploy: true
