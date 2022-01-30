@@ -16,6 +16,8 @@ npm install git://github.com/weartio/weart-serverless-cognito.git
 
 
 # How it works
+![image description](user_pool.drawio.svg)
+
 todo
 
 
