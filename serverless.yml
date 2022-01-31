@@ -5,10 +5,10 @@ functions:
     awsKmsKeyArn: !GetAtt KmsKey.Arn
     environment:
       KEY_ID: !GetAtt KmsKey.Arn
-      SENDGRID_KEY: ${env:SENDGRID_KEY}
-      SENDGRID_TEMPLATE_ID: ${env:SENDGRID_TEMPLATE_ID}
-      SENDER_EMAIL: ${env:SENDER_EMAIL}
-      SLACK_WEBHOOK_URL: ${env:SLACK_WEBHOOK_URL}
+      SENDGRID_KEY: ${self:custom.cognito.keys.SENDGRID_KEY}
+      SENDGRID_TEMPLATE_ID: ${self:custom.cognito.keys.SENDGRID_TEMPLATE_ID}
+      SENDER_EMAIL: ${self:custom.cognito.keys.SENDER_EMAIL}
+      SLACK_WEBHOOK_URL: ${self:custom.cognito.keys.SLACK_WEBHOOK_URL}
       STAGE: ${self:provider.stage}
     timeout: 10 # optional, in seconds, default is 6
     role: LambdaTriggerRole
@@ -19,10 +19,10 @@ functions:
     awsKmsKeyArn: !GetAtt KmsKey.Arn
     environment:
       KEY_ID: !GetAtt KmsKey.Arn
-      TWILLIO_ACCOUNT_SID: ${env:TWILLIO_ACCOUNT_SID}
-      TWILLIO_AUTH_TOKEN: ${env:TWILLIO_AUTH_TOKEN}
-      TWILLIO_SENDING_NUMBER: ${env:TWILLIO_SENDING_NUMBER}
-      SLACK_WEBHOOK_URL: ${env:SLACK_WEBHOOK_URL}
+      TWILLIO_ACCOUNT_SID: ${self:custom.cognito.keys.TWILLIO_ACCOUNT_SID}
+      TWILLIO_AUTH_TOKEN: ${self:custom.cognito.keys.TWILLIO_AUTH_TOKEN}
+      TWILLIO_SENDING_NUMBER: ${self:custom.cognito.keys.TWILLIO_SENDING_NUMBER}
+      SLACK_WEBHOOK_URL: ${self:custom.cognito.keys.SLACK_WEBHOOK_URL}
       STAGE: ${self:provider.stage}
     timeout: 10 # optional, in seconds, default is 6
     role: LambdaTriggerRole
@@ -39,7 +39,7 @@ functions:
           topicName: ${self:custom.currentStage}-new-user
 
     environment:
-      SLACK_WEBHOOK_URL: ${env:SLACK_WEBHOOK_URL}
+      SLACK_WEBHOOK_URL: ${self:custom.cognito.keys.SLACK_WEBHOOK_URL}
 
   postConfirmation:
     runtime: python3.8
