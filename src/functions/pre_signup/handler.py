@@ -22,7 +22,7 @@ def handler(event, context):
 
     if trigger_source == "PreSignUp_ExternalProvider":
         """Cases are Google, Facebook, Apple"""
-        social_media_provider = event['userName'].split("_")[1].lower()
+        social_media_provider = event['userName'].split("_")[0].lower()
         if social_media_provider not in scopes:
             raise ValueError("{} is not supported as a valid registration method".format(social_media_provider))
 
