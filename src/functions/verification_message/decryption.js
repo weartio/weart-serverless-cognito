@@ -95,14 +95,17 @@ export const execute = async (event, receiverFunction, sendFunction) => {
     const verificationCode = await getDecryptedCode(code);
     // if not prod don't send message, it will be visible at slack
     const stage = process.env.STAGE;
-    if (stage !== 'dev') {
-        await sendFunction(receiver, verificationCode);
-    }
+
     try {
         const message = `User ${receiver}, verification code: ${verificationCode}`
         await notifySlack(message)
     } catch (error) {
         console.log("Can't send message to slack", error)
+    }
+
+    if (stage !== 'dev') {
+        //@TODO: this might cause error by the provider, we need to solve it at the error center.
+        await sendFunction(receiver, verificationCode);
     }
 
     // @TODO: we need to check the CustomMessage_Authentication, CustomMessage_UpdateUserAttribute
