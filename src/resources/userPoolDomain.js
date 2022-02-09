@@ -15,7 +15,7 @@ function buildUserPoolDomain(rcsPrefix, userPoolRef, refName = "UserPoolDomain")
                 "UserPoolId": {
                     "Ref": userPoolRef
                 },
-                "Domain": `${rcsPrefix}-manzilik`
+                "Domain": `${rcsPrefix}`
             }
         },
     }
