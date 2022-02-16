@@ -71,7 +71,7 @@ def handler(event, context):
 
     # Note: platform, user_group, custom have to be validated at the PreSignup lambda function.
     platform = user_attributes.get('platform', None)
-    user_group = user_attributes.get('user_group', None)
+    user_group = user_attributes.get('custom:user_group', None)
     custom = user_attributes.get('custom:custom', None)
 
     if post_confirmation_type == 'PostConfirmation_ConfirmSignUp':
