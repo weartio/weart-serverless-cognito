@@ -72,7 +72,3 @@ class TestPostConfirmation(ExtendedTestCase):
 
     def test_post_confirmation_with_existing_phone_number(self):
         self.fail('Not Implemented Yet!')
-
-
-if __name__ == '__main__':
-    unittest.main()

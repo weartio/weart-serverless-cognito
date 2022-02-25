@@ -83,7 +83,3 @@ class TestEmailPreSignUp(ExtendedTestCase):
 
         self.assertRaisesWithMessage(AttributeError, "PLATFORM_ALLOWED_SCOPE is required", handler, event,
                                      context)
-
-
-if __name__ == '__main__':
-    unittest.main()
