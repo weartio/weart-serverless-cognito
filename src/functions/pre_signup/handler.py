@@ -12,6 +12,8 @@ def handler(event, context):
     print("Event {}".format(json.dumps(event)))
 
     PLATFORM_ALLOWED_SCOPE = os.getenv("PLATFORM_ALLOWED_SCOPE")
+    USER_GROUPS_ALLOWED = os.getenv("USER_GROUPS_ALLOWED")
+
     if not PLATFORM_ALLOWED_SCOPE:
         raise AttributeError("PLATFORM_ALLOWED_SCOPE is required")
 
@@ -19,6 +21,22 @@ def handler(event, context):
     trigger_source = event['triggerSource']
     user_attributes = request['userAttributes']
     scopes = PLATFORM_ALLOWED_SCOPE.split(",")
+
+    skip_user_groups_validation = USER_GROUPS_ALLOWED is None
+
+    if skip_user_groups_validation:
+        user_group = user_attributes.get('custom:user_group', None)
+        if user_group:
+            raise ValueError("User group is undefined!")
+    else:
+        user_groups_allowed = USER_GROUPS_ALLOWED.split(",")
+
+        user_group = user_attributes.get('custom:user_group', None)
+        if not user_group:
+            raise AttributeError("User Group is required!")
+
+        if user_group not in user_groups_allowed:
+            raise ValueError("User group is not valid!")
 
     if trigger_source == "PreSignUp_ExternalProvider":
         """Cases are Google, Facebook, Apple"""
@@ -44,6 +62,9 @@ def handler(event, context):
             """
             if phone_number is None:
                 raise AttributeError("Phone number is required!")
+            else:
+                if not (str(phone_number).startswith("+") or str(phone_number).startswith("00")):
+                    raise ValueError("Phone number is not valid!")
 
         if {'email'}.issubset(set(scopes)) and not {'phone_number'}.issubset(set(scopes)):
             """
