@@ -9,6 +9,9 @@ def handler(event, context):
     :param context:
     :return:
     """
+    if not event:
+        raise AttributeError('Event is required!')
+
     print("Event {}".format(json.dumps(event)))
 
     PLATFORM_ALLOWED_SCOPE = os.getenv("PLATFORM_ALLOWED_SCOPE")
@@ -21,6 +24,9 @@ def handler(event, context):
     trigger_source = event['triggerSource']
     user_attributes = request['userAttributes']
     scopes = PLATFORM_ALLOWED_SCOPE.split(",")
+
+    if not request:
+        raise AttributeError('Request parameter is required!')
 
     skip_user_groups_validation = True if not USER_GROUPS_ALLOWED else False
 

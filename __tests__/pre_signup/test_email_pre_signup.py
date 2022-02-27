@@ -78,8 +78,7 @@ class TestEmailPreSignUp(ExtendedTestCase):
         context = None
         event = None
 
-        self.assertRaisesWithMessage(TypeError, "'NoneType' object is not subscriptable", handler, event,
-                                     context)
+        self.assertRaisesWithMessage(AttributeError, "Event is required!", handler, event, context)
 
     @mock.patch.dict(os.environ, {"PLATFORM_ALLOWED_SCOPE": "phone_number",
                                   "USER_GROUPS_ALLOWED": "PROFESSIONAL,HOMEOWNER"})
