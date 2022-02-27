@@ -39,7 +39,10 @@ class TestEmailPreSignUp(ExtendedTestCase):
         with open('mock_data/valid_event_email.json') as json_file:
             event = json.load(json_file)
 
-        self.assertRaisesWithMessage(ValueError, "User group is undefined!", handler, event, context)
+        response = handler(event, context)
+
+        # the response should be the same as the event
+        self.assertEqual(sorted(event.items()), sorted(response.items()))
 
     @mock.patch.dict(os.environ, {"PLATFORM_ALLOWED_SCOPE": "email", "USER_GROUPS_ALLOWED": "PROFESSIONAL,HOMEOWNER"})
     def test_pre_signup_email_with_missing_user_group(self):

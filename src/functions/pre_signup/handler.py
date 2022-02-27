@@ -22,13 +22,9 @@ def handler(event, context):
     user_attributes = request['userAttributes']
     scopes = PLATFORM_ALLOWED_SCOPE.split(",")
 
-    skip_user_groups_validation = USER_GROUPS_ALLOWED is None
+    skip_user_groups_validation = True if not USER_GROUPS_ALLOWED else False
 
-    if skip_user_groups_validation:
-        user_group = user_attributes.get('custom:user_group', None)
-        if user_group:
-            raise ValueError("User group is undefined!")
-    else:
+    if not skip_user_groups_validation:
         user_groups_allowed = USER_GROUPS_ALLOWED.split(",")
 
         user_group = user_attributes.get('custom:user_group', None)

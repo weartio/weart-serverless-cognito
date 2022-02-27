@@ -49,10 +49,13 @@ class TestPhoneNumberPreSignUp(ExtendedTestCase):
     def test_pre_signup_email_with_no_user_group_environment_variable(self):
         context = None
 
-        with open('mock_data/event_with_missing_email_and_phone_number.json') as json_file:
+        with open('mock_data/valid_event_phone_number.json') as json_file:
             event = json.load(json_file)
 
-        self.assertRaisesWithMessage(ValueError, "User group is undefined!", handler, event, context)
+        response = handler(event, context)
+
+        # the response should be the same as the event
+        self.assertEqual(sorted(event.items()), sorted(response.items()))
 
     @mock.patch.dict(os.environ, {"PLATFORM_ALLOWED_SCOPE": "phone_number",
                                   "USER_GROUPS_ALLOWED": "PROFESSIONAL,HOMEOWNER"})
