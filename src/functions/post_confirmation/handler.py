@@ -4,6 +4,8 @@ import sys
 
 import boto3
 
+from src.functions.post_confirmation.core.users import APPLE, MOBILE
+
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 
 from core.users import GOOGLE, EMAIL, list_similar_users, create_client, FACEBOOK
@@ -16,6 +18,8 @@ def get_registration_method(user_attributes):
     :param user_attributes:
     :return:
     """
+    if 'phone_number' in user_attributes:
+        return MOBILE
     if 'identities' not in user_attributes:
         return EMAIL
 
@@ -32,8 +36,8 @@ def get_registration_method(user_attributes):
     if identity['providerName'] == 'Google':
         return GOOGLE
 
-    if identity['providerName'] == 'Facebook':
-        return FACEBOOK
+    if identity['providerName'] == 'Apple':
+        return APPLE
 
     return EMAIL
 
@@ -61,13 +65,28 @@ def handler(event, context):
     :param context:
     :return:
     """
+    if event is None:
+        raise AttributeError('Event is required!')
+
     client = boto3.client('cognito-idp')
 
     print("Event {}".format(json.dumps(event)))
-    username = event['userName']
-    user_pool_id = event['userPoolId']
-    user_attributes = event['request']['userAttributes']
-    post_confirmation_type = event['triggerSource']
+    username = event.get('userName', None)
+    user_pool_id = event.get('userPoolId', None)
+    user_attributes = event['request'].get('userAttributes', None)
+    post_confirmation_type = event.get('triggerSource', None)
+
+    if not username:
+        raise AttributeError('Username is required!')
+
+    if not user_pool_id:
+        raise AttributeError('UserPoolId is required!')
+
+    if not user_attributes:
+        raise AttributeError('UserAttributes is required!')
+
+    if not post_confirmation_type:
+        raise AttributeError('Trigger Source is required!')
 
     # Note: platform, user_group, custom have to be validated at the PreSignup lambda function.
     platform = user_attributes.get('platform', None)
@@ -91,6 +110,8 @@ def handler(event, context):
                 create_client(usr, platform, user_group, custom)
         else:
             create_client(current_user, platform, user_group, custom)
+    else:
+        raise ValueError('Invalid Trigger Source!')
     return event
 
 

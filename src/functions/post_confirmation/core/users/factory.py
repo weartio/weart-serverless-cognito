@@ -1,9 +1,10 @@
-from . import EMAIL, GOOGLE, APPLE, ADMIN
+from . import EMAIL, GOOGLE, APPLE, ADMIN, MOBILE
 from .abstract_user import AbstractUser
 from .apple import Apple
 from .cognito import Cognito
 from .google import Google
 from .admin import Admin
+
 
 class UserFactory:
 
@@ -13,7 +14,7 @@ class UserFactory:
         email = user_attributes.get('email', None)
         phone_number = user_attributes.get('phone_number', None)
 
-        if provider_type == EMAIL:
+        if provider_type in (EMAIL, MOBILE):
             return Cognito(username, cognito_id, user_pool_id, email, phone_number)
         elif provider_type == GOOGLE:
             first_name = user_attributes.get('given_name')

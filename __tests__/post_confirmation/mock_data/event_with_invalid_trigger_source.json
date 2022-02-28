@@ -7,7 +7,7 @@
         "awsSdkVersion": "aws-sdk-unknown-unknown",
         "clientId": "test-pool-client-id"
     },
-    "triggerSource": "PostConfirmation_ConfirmSignUp",
+    "triggerSource": "Invalid_trigger_source",
     "request": {
         "userAttributes": {
             "sub": "5e24d5fd-35ce-4387-8f1d-994ad5e49533",
