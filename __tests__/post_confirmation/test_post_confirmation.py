@@ -128,9 +128,17 @@ class TestGoogleExternalProvider(ExtendedTestCase):
 
 class TestAppleExternalProvider(ExtendedTestCase):
     def test_new_user(self):
+        """
+        Not Implemented for now, we need to handle the apple registration at first.
+        :return:
+        """
         self.fail('Not Implemented Yet!')
 
     def test_existing_user(self):
+        """
+        Not Implemented for now, we need to handle the apple registration at first.
+        :return:
+        """
         self.fail('Not Implemented Yet!')
 
 
