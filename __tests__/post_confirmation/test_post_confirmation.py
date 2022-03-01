@@ -134,21 +134,6 @@ class TestAppleExternalProvider(ExtendedTestCase):
         self.fail('Not Implemented Yet!')
 
 
-class TestUserGroup(ExtendedTestCase):
-    def test_matching_custom_user_group_with_given_environment_variable(self):
-        self.fail('Not Implemented Yet!')
-
-    def test_mismatching_custom_user_group_with_given_environment_variable(self):
-        self.fail('Not Implemented Yet!')
-
-    def test_custom_user_group_attribute_doesnt_exist(self):
-        context = None
-        with open('mock_data/event_with_missing_custom_user_group.json') as json_file:
-            event = json.load(json_file)
-
-        self.assertRaisesWithMessage(AttributeError, "User group is required!", handler, event, context)
-
-
 class TestGeneralCases(ExtendedTestCase):
     def test_with_empty_parameters(self):
         context = None
