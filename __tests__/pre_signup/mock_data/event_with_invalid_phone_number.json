@@ -11,7 +11,7 @@
     "request": {
         "userAttributes": {
             "name": "mahmoud",
-            "custom:user_group": "WRONG_USER_GROUP",
+            "custom:user_group": "HOMEOWNER",
             "email": "mahmoud@gmail.com",
             "phone_number": "123456"
         },

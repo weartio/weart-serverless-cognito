@@ -15,7 +15,6 @@
             "cognito:user_status": "CONFIRMED",
             "cognito:email_alias": "mahmoud@gmail.com",
             "name": "mahmoud",
-            "custom:user_group": "HOMEOWNER",
             "email": "mahmoud@gmail.com"
         }
     },

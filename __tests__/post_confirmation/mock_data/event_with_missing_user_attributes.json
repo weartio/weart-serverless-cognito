@@ -9,15 +9,6 @@
     },
     "triggerSource": "PostConfirmation_ConfirmSignUp",
     "request": {
-        "userAttributes": {
-            "sub": "5e24d5fd-35ce-4387-8f1d-994ad5e49533",
-            "email_verified": "true",
-            "cognito:user_status": "CONFIRMED",
-            "cognito:email_alias": "mahmoud@gmail.com",
-            "name": "mahmoud",
-            "custom:user_group": "HOMEOWNER",
-            "email": "mahmoud@gmail.com"
-        }
     },
     "response": {}
 }

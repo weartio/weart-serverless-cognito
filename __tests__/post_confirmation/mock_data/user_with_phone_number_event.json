@@ -1,0 +1,21 @@
+{
+    "version": "1",
+    "region": "eu-central-1",
+    "userPoolId": "eu-central-1_JbRfFU42n",
+    "userName": "1551c9c3-1e13-4d8e-8b23-f8751416d80c",
+    "callerContext": {
+        "awsSdkVersion": "aws-sdk-unknown-unknown",
+        "clientId": "5d6vdj39c1e0vs96qgf5sl6bee"
+    },
+    "triggerSource": "PostConfirmation_ConfirmSignUp",
+    "request": {
+        "userAttributes": {
+            "sub": "1551c9c3-1e13-4d8e-8b23-f8751416d80c",
+            "cognito:user_status": "CONFIRMED",
+            "phone_number_verified": "true",
+            "cognito:phone_number_alias": "+905315089432",
+            "phone_number": "+905315089432"
+        }
+    },
+    "response": {}
+}

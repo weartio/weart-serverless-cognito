@@ -1,0 +1,23 @@
+{
+    "version": "1",
+    "region": "eu-central-1",
+    "userPoolId": "eu-central-1_CTp6w3TG6",
+    "userName": "Google_103061450698002205209",
+    "callerContext": {
+        "awsSdkVersion": "aws-sdk-unknown-unknown",
+        "clientId": "4cnuab0qfbfau0m8mfb0g1221"
+    },
+    "triggerSource": "PostConfirmation_ConfirmSignUp",
+    "request": {
+        "userAttributes": {
+            "custom:access_token": "ya29.A0ARrdaM8WBqhrng6a_APUU5acsP1Omt7Dn893AIvsM53zyWaeYzzTuCf1o0Z4QJdNraTYHgXyhtss-cTljKIF4zCU5UVL8me36ofqgN5nmF4ooeKMjQewgqNSZ8BYMqQ2qpc-0NN1qCajDK7wxhKCjWPyKRti",
+            "sub": "655ed20c-ee83-4308-a29c-f488dcea32e9",
+            "email_verified": "true",
+            "cognito:user_status": "EXTERNAL_PROVIDER",
+            "identities": "[{\"userId\":\"103061450698002205209\",\"providerName\":\"Google\",\"providerType\":\"Google\",\"issuer\":null,\"primary\":true,\"dateCreated\":1646083794948}]",
+            "email": "mahmoud.abujayyab@weart.io",
+            "picture": "https://lh3.googleusercontent.com/a-/AOh14Gg19ScluZPFW7eyVjli_ltVfmHcpeozfvvgrHln=s96-c"
+        }
+    },
+    "response": {}
+}

@@ -67,6 +67,7 @@ functions:
         - "${self:custom.cognito.functionsPath}/pre_signup/handler.py"
     environment:
       PLATFORM_ALLOWED_SCOPE: ${self:custom.cognito.platformAllowedScope}
+      USER_GROUPS_ALLOWED: ${opt:self:custom.cognito.userGroupsAllowed, ""} # if the userGroupsAllowed not specified, configure it as empty string
     events:
       - cognitoUserPool:
           pool: ${self:custom.currentStage}-users

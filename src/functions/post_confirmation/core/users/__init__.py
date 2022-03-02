@@ -12,6 +12,7 @@ GOOGLE = "GOOGLE"
 APPLE = "APPLE"
 EMAIL = "EMAIL"
 ADMIN = "ADMIN"
+MOBILE = "MOBILE"
 
 
 def get_random_string(length):
