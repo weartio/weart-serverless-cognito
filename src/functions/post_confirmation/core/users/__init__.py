@@ -20,9 +20,15 @@ def get_random_string(length):
     :param length:
     :return:
     """
-    letters = string.ascii_lowercase + string.digits
-    result_str = ''.join(random.choice(letters) for i in range(length))
-    return result_str
+    letters_length = length - 1
+    digits_length = 1
+
+    letters = string.ascii_lowercase
+    digits = string.digits
+
+    letters_string = ''.join(random.choices(letters, k=letters_length))
+    digits_string = ''.join(random.choices(digits, k=digits_length))
+    return letters_string + digits_string
 
 
 def list_similar_users(client, user_pool_id, email, username):
