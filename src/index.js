@@ -146,8 +146,8 @@ class WeArtCongitoPlugin {
 
 
     const identityPool = new Resource(buildIdentityPool(this.rcsPrefix, userPool.ref, userPoolClient.ref, this.deleletionPolicy));
-    const authRole = new Resource(buildCognitoAuthRole(this.rcsPrefix, userPool.ref));
-    const unAuthRole = new Resource(buildCognitoUnAuthRole(this.rcsPrefix, userPool.ref));
+    const authRole = new Resource(buildCognitoAuthRole(this.rcsPrefix, identityPool.ref));
+    const unAuthRole = new Resource(buildCognitoUnAuthRole(this.rcsPrefix, identityPool.ref));
 
     const identityPoolRoleAttachments = new Resource(buildCognitoIdentityPoolRoleAttachment(identityPool.ref,
       authRole.ref, unAuthRole.ref));

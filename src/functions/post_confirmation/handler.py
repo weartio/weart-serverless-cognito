@@ -4,11 +4,9 @@ import sys
 
 import boto3
 
-from src.functions.post_confirmation.core.users import APPLE, MOBILE
-
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 
-from core.users import GOOGLE, EMAIL, list_similar_users, create_client, FACEBOOK
+from core.users import GOOGLE, EMAIL, list_similar_users, create_client, FACEBOOK, APPLE, MOBILE
 from core.users.factory import UserFactory
 
 
@@ -110,8 +108,7 @@ def handler(event, context):
                 create_client(usr, platform, user_group, custom)
         else:
             create_client(current_user, platform, user_group, custom)
-    else:
-        raise ValueError('Invalid Trigger Source!')
+
     return event
 
 
