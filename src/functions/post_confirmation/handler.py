@@ -108,8 +108,7 @@ def handler(event, context):
                 create_client(usr, platform, user_group, custom)
         else:
             create_client(current_user, platform, user_group, custom)
-    else:
-        raise ValueError('Invalid Trigger Source!')
+
     return event
 
 
