@@ -36,6 +36,7 @@ class WeArtCongitoPlugin {
     this.stackName = this.serverless.service.service;
     this.stage = service.provider ? service.provider.stage : service.stage;
     this.rcsPrefix = `${this.stackName}-${this.stage}`
+    this.domain = `auth-${this.stage}.manzilik.com`
     this.smsExternalId = this.options.smsExternalId
     this.loginCallbackUrl = this.options.loginCallbackUrl
     this.logoutCallbackUrl = this.options.logoutCallbackUrl
@@ -136,7 +137,7 @@ class WeArtCongitoPlugin {
       apple = new Resource(buildAppleIdentityProvider(appleClientId, appleTeamId, appleKeyId, applePrivateKey, userPool.ref));
       this.appendResrouce(apple);
     }
-    const userPoolDomain = new Resource(buildUserPoolDomain(this.rcsPrefix, userPool.ref));
+    const userPoolDomain = new Resource(buildUserPoolDomain(this.domain, userPool.ref));
 
     const userPoolClient = new Resource(buildUserPoolClient(this.rcsPrefix, google, apple, userPool.ref, this.loginCallbackUrl, this.logoutCallbackUrl));
 
