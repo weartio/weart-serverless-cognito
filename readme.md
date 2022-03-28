@@ -11,7 +11,7 @@ This plugin is making the process of adding cognito to your project peace of cak
 Use the package manager [npm](https://www.npmjs.com/) to install the plugin.
 
 ```bash
-npm install git://github.com/weartio/weart-serverless-cognito.git
+npm i git+ssh://git@github.com/weartio/weart-serverless-cognito.git#develop
 ```
 
 
@@ -85,6 +85,12 @@ custom:
       privateKey: ${env:APPLE_PRIVATE_KEY}
 ```
 
+
+## Deploy 
+```
+./node_modules/serverless/bin/serverless.js deploy --stage <STAGE_NAME>
+
+```
 
 
 
