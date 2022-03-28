@@ -33,7 +33,7 @@ def handler(event, context):
     if not request.validation_data:
         raise AttributeError('Missing validation data')
 
-    if not verify_recaptcha(event.request.validation_data.recaptcha_token):
+    if RECAPTCHA_SECRET_KEY and not verify_recaptcha(event.request.validation_data.recaptcha_token):
         raise Exception('reCAPTCHA verification failed')
     skip_user_groups_validation = True if not USER_GROUPS_ALLOWED else False
 
