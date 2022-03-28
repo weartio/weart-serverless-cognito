@@ -36,7 +36,7 @@ class WeArtCongitoPlugin {
     this.stackName = this.serverless.service.service;
     this.stage = service.provider ? service.provider.stage : service.stage;
     this.rcsPrefix = `${this.stackName}-${this.stage}`
-    this.domain = `auth-${this.stage}.manzilik.com`
+    this.domain = this.options.domain;
     this.smsExternalId = this.options.smsExternalId
     this.loginCallbackUrl = this.options.loginCallbackUrl
     this.logoutCallbackUrl = this.options.logoutCallbackUrl
