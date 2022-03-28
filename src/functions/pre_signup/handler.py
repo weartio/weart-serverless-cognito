@@ -34,7 +34,7 @@ def handler(event, context):
         raise AttributeError('Missing validation data')
 
     if not verify_recaptcha(event.request.validation_data.recaptcha_token):
-        raise Exception('')
+        raise Exception('reCAPTCHA verification failed')
     skip_user_groups_validation = True if not USER_GROUPS_ALLOWED else False
 
     if not skip_user_groups_validation:
@@ -96,10 +96,6 @@ def verify_recaptcha(recaptcha_token):
     url = 'https://www.google.com/recaptcha/api/siteverify'
     verify_response = requests.post(url, payload)
     print('verify_response: ', verify_response)
-    if not verify_response.data.success:
+    if not verify_response.status_code == 200:
         return False
     return True
-    # if verify_response.data.success:
-    #     event.response.autoConfirmUser = True;
-    # else:
-    #     raise 'Recaptcha verification failed'
