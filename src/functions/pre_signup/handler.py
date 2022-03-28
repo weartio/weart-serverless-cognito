@@ -1,7 +1,7 @@
 import json
 import os
 import requests
-RECAPTCHA_SECRET_KEY = os.environ['RECAPTCHA_SECRET_KEY']
+RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY', None)
 
 
 def handler(event, context):
