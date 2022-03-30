@@ -1,6 +1,7 @@
 import json
 import os
-import requests
+import urllib3
+
 RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY', None)
 
 
@@ -30,10 +31,10 @@ def handler(event, context):
     if not request:
         raise AttributeError('Request parameter is required!')
 
-    if not request.validation_data:
+    if "validationData" not in request:
         raise AttributeError('Missing validation data')
 
-    if RECAPTCHA_SECRET_KEY and not verify_recaptcha(event.request.validation_data.recaptcha_token):
+    if RECAPTCHA_SECRET_KEY and not verify_recaptcha(request["validationData"]["recaptcha_token"]):
         raise Exception('reCAPTCHA verification failed')
     skip_user_groups_validation = True if not USER_GROUPS_ALLOWED else False
 
@@ -94,8 +95,9 @@ def verify_recaptcha(recaptcha_token):
         "response": recaptcha_token
     }
     url = 'https://www.google.com/recaptcha/api/siteverify'
-    verify_response = requests.post(url, payload)
-    print('verify_response: ', verify_response)
-    if not verify_response.status_code == 200:
+    http = urllib3.PoolManager()
+    verify_response = http.request('POST', url, payload)
+    response = json.loads(verify_response.data)
+    if not response['success']:
         return False
     return True
