@@ -34,7 +34,7 @@ def get_registration_method(user_attributes):
     if identity['providerName'] == 'Google':
         return GOOGLE
 
-    if identity['providerName'] == 'Apple':
+    if identity['providerName'] == 'SignInWithApple':
         return APPLE
 
     return EMAIL
