@@ -127,19 +127,53 @@ class TestGoogleExternalProvider(ExtendedTestCase):
 
 
 class TestAppleExternalProvider(ExtendedTestCase):
-    def test_new_user(self):
-        """
-        Not Implemented for now, we need to handle the apple registration at first.
-        :return:
-        """
-        self.fail('Not Implemented Yet!')
+    def setUp(self) -> None:
+        with open('mock_data/user_with_apple_event.json') as json_file:
+            self.event = json.load(json_file)
 
-    def test_existing_user(self):
+    @patch('src.functions.post_confirmation.handler.create_client')
+    @patch('botocore.client.BaseClient._make_api_call',
+           new=mock_make_api_call(
+               [
+                   {'operation_name': 'ListUsers', 'returned_data': {'Users': []}},
+                   {'operation_name': 'AdminCreateUser', 'returned_data': {'User': {'Username': 'weArt'}}},
+                   {'operation_name': 'AdminSetUserPassword', 'returned_data': 'done'},
+                   {'operation_name': 'AdminLinkProviderForUser', 'returned_data': 'done'}
+               ]
+           ))
+    def test_new_user(self, mocked_created_client):
         """
-        Not Implemented for now, we need to handle the apple registration at first.
-        :return:
+         When user tries to sign up with apple, without previous native account
+         :param mocked_created_client:
+         :return:
+         """
+        mocked_created_client.return_value = 'SNS_MESSAGE_ID'
+        response = handler(self.event, None)
+
+        self.assertEqual(sorted(self.event.items()), sorted(response.items()))
+        self.assertEqual(mocked_created_client.call_count, 2)
+
+    @patch('src.functions.post_confirmation.handler.create_client')
+    @patch('botocore.client.BaseClient._make_api_call',
+           new=mock_make_api_call(
+               [
+                   {'operation_name': 'ListUsers', 'returned_data': {'Users': [{'Username': "user1"}]}},
+                   {'operation_name': 'AdminCreateUser', 'returned_data': {'User': {'Username': 'weArt'}}},
+                   {'operation_name': 'AdminSetUserPassword', 'returned_data': 'done'},
+                   {'operation_name': 'AdminLinkProviderForUser', 'returned_data': 'done'}
+               ]
+           ))
+    def test_existing_user(self, mocked_created_client):
         """
-        self.fail('Not Implemented Yet!')
+       When user tries to sign up with apple, with existing native account
+       :param mocked_created_client:
+       :return:
+       """
+        mocked_created_client.return_value = 'SNS_MESSAGE_ID'
+        response = handler(self.event, None)
+
+        self.assertEqual(sorted(self.event.items()), sorted(response.items()))
+        mocked_created_client.assert_called_once()
 
 
 class TestGeneralCases(ExtendedTestCase):
