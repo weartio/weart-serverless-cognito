@@ -33,7 +33,7 @@ def handler(event, context):
     if not request:
         raise AttributeError('Request parameter is required!')
 
-    if RECAPTCHA_SECRET_KEY and pool_client_id == MOBILE_POOL_CLIENT_ID:
+    if RECAPTCHA_SECRET_KEY and pool_client_id != MOBILE_POOL_CLIENT_ID:
         if "validationData" not in request:
             raise AttributeError('Missing validation data')
 
