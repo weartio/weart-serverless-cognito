@@ -3,6 +3,7 @@ import os
 import urllib3
 
 RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY', None)
+MOBILE_POOL_CLIENT_ID = os.environ.get('MOBILE_POOL_CLIENT_ID', None)
 
 
 def handler(event, context):
@@ -26,12 +27,13 @@ def handler(event, context):
     request = event['request']
     trigger_source = event['triggerSource']
     user_attributes = request['userAttributes']
+    pool_client_id = event['callerContext']['clientId']
     scopes = PLATFORM_ALLOWED_SCOPE.split(",")
 
     if not request:
         raise AttributeError('Request parameter is required!')
 
-    if RECAPTCHA_SECRET_KEY:
+    if RECAPTCHA_SECRET_KEY and pool_client_id != MOBILE_POOL_CLIENT_ID:
         if "validationData" not in request:
             raise AttributeError('Missing validation data')
 
