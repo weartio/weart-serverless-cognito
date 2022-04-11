@@ -41,6 +41,9 @@ class WeArtCongitoPlugin {
     this.loginCallbackUrl = this.options.loginCallbackUrl
     this.logoutCallbackUrl = this.options.logoutCallbackUrl
     this.deleletionPolicy = this.options.deleletionPolicy
+    if (this.options.loginCallbackUrlMobile) {
+      this.loginCallbackUrlMobile = this.options.loginCallbackUrlMobile
+    }
 
     this.hooks = {
       'after:package:initialize': this.afterInitialize.bind(this),
@@ -145,6 +148,11 @@ class WeArtCongitoPlugin {
     this.appendResrouce(userPoolDomain);
     this.appendResrouce(userPoolClient);
 
+    if (this.loginCallbackUrlMobile) {
+      let rcsPrefix =  `${this.rcsPrefix}-mobile`
+      const userPoolClientMobile = new Resource(buildUserPoolClient(rcsPrefix, google, apple, userPool.ref, this.loginCallbackUrlMobile, this.logoutCallbackUrl));
+      this.appendResrouce(userPoolClientMobile);
+    }
 
     const identityPool = new Resource(buildIdentityPool(this.rcsPrefix, userPool.ref, userPoolClient.ref, this.deleletionPolicy));
     const authRole = new Resource(buildCognitoAuthRole(this.rcsPrefix, identityPool.ref));
