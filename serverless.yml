@@ -67,9 +67,9 @@ functions:
         - "${self:custom.cognito.functionsPath}/pre_signup/handler.py"
     environment:
       PLATFORM_ALLOWED_SCOPE: ${self:custom.cognito.platformAllowedScope}
-      USER_GROUPS_ALLOWED: ${opt:self:custom.cognito.userGroupsAllowed, ""} # if the userGroupsAllowed not specified, configure it as empty string
-      RECAPTCHA_SECRET_KEY: ${opt:self:custom.cognito.recaptchaSecretKey, ""} # if the recaptchaSecretKey not specified, configure it as empty string
-      MOBILE_POOL_CLIENT_ID: ${opt:self:custom.cognito.mobilePoolClientId, ""} # if the mobilePoolClientId not specified, configure it as empty string
+      USER_GROUPS_ALLOWED: ${self:custom.cognito.userGroupsAllowed, ""} # if the userGroupsAllowed not specified, configure it as empty string
+      RECAPTCHA_SECRET_KEY: ${self:custom.cognito.recaptchaSecretKey, ""} # if the recaptchaSecretKey not specified, configure it as empty string
+      MOBILE_POOL_CLIENT_ID: ${self:custom.cognito.mobilePoolClientId, ""} # if the mobilePoolClientId not specified, configure it as empty string
     events:
       - cognitoUserPool:
           pool: ${self:custom.currentStage}-users
