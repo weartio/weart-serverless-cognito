@@ -2,22 +2,23 @@ const { isEmpty } = require("./uilts")
 
 /**
  * 
- * @param {*} googleRef 
- * @param {*} appleRef 
+ * @param {*} clientName
+ * @param {*} googleRef
+ * @param {*} appleRef
  * @param {*} CognitoUserPoolRef 
  * @param {*} loginCallbackUrl 
  * @param {*} logoutCallbackUrl 
- * @param {*} refName 
+ * @param {*} refName
  * @returns 
  */
-function buildUserPoolClient(rcsPrefix, googleRef, appleRef, CognitoUserPoolRef = "CognitoUserPool",
+function buildUserPoolClient(clientName, googleRef, appleRef, CognitoUserPoolRef = "CognitoUserPool",
     loginCallbackUrl = "", logoutCallbackUrl = "", refName = "CognitoUserPoolClient") {
     return {
         [refName]: {
             "Type": "AWS::Cognito::UserPoolClient",
             "DeletionPolicy": "Delete",
             "Properties": {
-                "ClientName": `${rcsPrefix}-users-client`,
+                "ClientName": `${clientName}`,
                 "AllowedOAuthFlows": [
                     "code"
                 ],
