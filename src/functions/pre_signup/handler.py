@@ -1,9 +1,28 @@
 import json
 import os
+
 import urllib3
 
 RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY', None)
 MOBILE_POOL_CLIENT_ID = os.environ.get('MOBILE_POOL_CLIENT_ID', None)
+
+
+def verify_recaptcha(recaptcha_token):
+    """
+    Verify the recaptcha with google
+    :param recaptcha_token:
+    :return:
+    """
+    payload = {
+        "secret": RECAPTCHA_SECRET_KEY,
+        "response": recaptcha_token
+    }
+    url = 'https://www.google.com/recaptcha/api/siteverify'
+    http = urllib3.PoolManager()
+    verify_response = http.request('POST', url, payload)
+    response = json.loads(verify_response.data)
+
+    return 'success' in response
 
 
 def handler(event, context):
@@ -27,18 +46,32 @@ def handler(event, context):
     request = event['request']
     trigger_source = event['triggerSource']
     user_attributes = request['userAttributes']
-    pool_client_id = event['callerContext']['clientId']
+    user_pool_app_client_id = event['callerContext']['clientId']
     scopes = PLATFORM_ALLOWED_SCOPE.split(",")
+
+    # Preconditions:
+    # - if the request is coming from mobile, skip captcha validation
+    # - if the request is coming from social media, skip the captcha validation
 
     if not request:
         raise AttributeError('Request parameter is required!')
 
-    if RECAPTCHA_SECRET_KEY and pool_client_id != MOBILE_POOL_CLIENT_ID:
-        if "validationData" not in request:
-            raise AttributeError('Missing validation data')
+    skip_captcha_check = user_pool_app_client_id == MOBILE_POOL_CLIENT_ID or \
+                         trigger_source == "PreSignUp_ExternalProvider" or \
+                         trigger_source == "PreSignUp_AdminCreateUser"
 
-        if not verify_recaptcha(request["validationData"]["recaptchaToken"]):
-            raise Exception('reCAPTCHA verification failed')
+    if not skip_captcha_check:
+        if "validationData" not in request or request["validationData"] is None:
+            raise AttributeError('Wrong captcha: validationData is missing')
+
+        if not hasattr(request["validationData"], "recaptchaToken"):
+            raise AttributeError('Wrong captcha: recaptchaToken is missing')
+
+        validation_data = request["validationData"]["recaptchaToken"]
+
+        if not verify_recaptcha(validation_data):
+            raise ValueError('reCAPTCHA verification failed')
+
     skip_user_groups_validation = True if not USER_GROUPS_ALLOWED else False
 
     if not skip_user_groups_validation:
@@ -90,17 +123,3 @@ def handler(event, context):
         pass
 
     return event
-
-
-def verify_recaptcha(recaptcha_token):
-    payload = {
-        "secret": RECAPTCHA_SECRET_KEY,
-        "response": recaptcha_token
-    }
-    url = 'https://www.google.com/recaptcha/api/siteverify'
-    http = urllib3.PoolManager()
-    verify_response = http.request('POST', url, payload)
-    response = json.loads(verify_response.data)
-    if not response['success']:
-        return False
-    return True
