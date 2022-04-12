@@ -67,6 +67,7 @@ custom:
     logoutCallbackUrl: ${env:LOGOUT_CALLBACK_URL}
     deleletionPolicy: Delete
     platformAllowedScope: "phone_number,email,google"
+    mobilePoolClientId: ${env:COGNITO_USER_CLIENT_APP_ID_MOBILE} # optional, but if you pass it it has to be correct
     keys:
       SENDGRID_KEY: ${env:SENDGRID_KEY}
       SENDGRID_TEMPLATE_ID: ${env:SENDGRID_TEMPLATE_ID}
