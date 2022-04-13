@@ -3,18 +3,16 @@ import os
 
 import urllib3
 
-RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY', None)
-MOBILE_POOL_CLIENT_ID = os.environ.get('MOBILE_POOL_CLIENT_ID', None)
 
-
-def verify_recaptcha(recaptcha_token):
+def verify_recaptcha(recaptcha_secret_key, recaptcha_token):
     """
     Verify the recaptcha with google
+    :param recaptcha_secret_key:
     :param recaptcha_token:
     :return:
     """
     payload = {
-        "secret": RECAPTCHA_SECRET_KEY,
+        "secret": recaptcha_secret_key,
         "response": recaptcha_token
     }
     url = 'https://www.google.com/recaptcha/api/siteverify'
@@ -32,6 +30,9 @@ def handler(event, context):
     :param context:
     :return:
     """
+    RECAPTCHA_SECRET_KEY = os.environ.get('RECAPTCHA_SECRET_KEY', None)
+    MOBILE_POOL_CLIENT_ID = os.environ.get('MOBILE_POOL_CLIENT_ID', None)
+
     if not event:
         raise AttributeError('Event is required!')
 
@@ -56,20 +57,24 @@ def handler(event, context):
     if not request:
         raise AttributeError('Request parameter is required!')
 
-    skip_captcha_check = user_pool_app_client_id == MOBILE_POOL_CLIENT_ID or \
-                         trigger_source == "PreSignUp_ExternalProvider" or \
-                         trigger_source == "PreSignUp_AdminCreateUser"
+    skip_captcha_check = user_pool_app_client_id == MOBILE_POOL_CLIENT_ID \
+                         or trigger_source == "PreSignUp_ExternalProvider" \
+                         or trigger_source == "PreSignUp_AdminCreateUser" \
+                         or RECAPTCHA_SECRET_KEY is None
 
     if not skip_captcha_check:
         if "validationData" not in request or request["validationData"] is None:
             raise AttributeError('Wrong captcha: validationData is missing')
 
-        if not hasattr(request["validationData"], "recaptchaToken"):
+        if "recaptchaToken" not in request["validationData"]:
             raise AttributeError('Wrong captcha: recaptchaToken is missing')
+
+        if not request["validationData"]["recaptchaToken"]:
+            raise AttributeError('Wrong captcha: recaptchaToken is not provided')
 
         validation_data = request["validationData"]["recaptchaToken"]
 
-        if not verify_recaptcha(validation_data):
+        if not verify_recaptcha(RECAPTCHA_SECRET_KEY, validation_data):
             raise ValueError('reCAPTCHA verification failed')
 
     skip_user_groups_validation = True if not USER_GROUPS_ALLOWED else False

@@ -6,7 +6,7 @@ import boto3
 
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 
-from core.users import GOOGLE, EMAIL, list_similar_users, create_client, FACEBOOK, APPLE, MOBILE
+from core.users import GOOGLE, EMAIL, list_similar_users, create_client, APPLE, MOBILE
 from core.users.factory import UserFactory
 
 
