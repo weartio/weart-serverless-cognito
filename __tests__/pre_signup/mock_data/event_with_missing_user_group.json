@@ -1,26 +1,24 @@
 {
-  "version": "1",
-  "region": "eu-central-1",
-  "userPoolId": "eu-central-1_testpool",
-  "userName": "5e24d5fd-35ce-4387-8f1d-994ad5e49533",
-  "callerContext": {
-    "awsSdkVersion": "aws-sdk-unknown-unknown",
-    "clientId": "test-pool-client-id"
-  },
-  "triggerSource": "PreSignUp_SignUp",
-  "request": {
-    "userAttributes": {
-      "name": "mahmoud",
-      "email": "mahmoud@gmail.com",
-      "phone_number": "+905315089434"
+    "version": "1",
+    "region": "eu-central-1",
+    "userPoolId": "eu-central-1_testpool",
+    "userName": "5e24d5fd-35ce-4387-8f1d-994ad5e49533",
+    "callerContext": {
+        "awsSdkVersion": "aws-sdk-unknown-unknown",
+        "clientId": "test-pool-client-id"
     },
-    "validationData": {
-      "recaptchaToken": "03AGdBq24NgZaoEH5XMLNB9sobn7n8qAi8V2Uze6-1pxfv8QgjHrTXA3ScK5H5R24_8Ipv3GH6V3B9XG1ek0_Zb2PaEd_deee2Fg9Tc_jdVCc0Mj5ZC0gQcv51CH_SEcZr7Wk8chkj8T6z-G5eoIkmhfbhmDYBP4KXFnyFCO-SPlPxMaklJLtXgaA2Regky6N76VH2nSlYpGkeqS3TcMVQETXPHQgeAuydlrc_Ee94Yre_tbvE7Mw7Z0NR10_eax4pf5ZxzhINavHD_C-cuYSX-tPBJ-VgVWAQQb-o0XaJI_p_sGdQihXfsNA_cpe58itwtgD5M5ms6OD7reUp2uzDZty-7Clj0lqUza2jNdDrYuMQITrfUzaOvB6pl0r3QMjnS3a1unTgPVKZNL06r16z5WtaPwl7lF5Zg10cgWimy1MEK1ZAxNeYSqStcrcvmZRvBYzuiPthmiIq"
+    "triggerSource": "PreSignUp_SignUp",
+    "request": {
+        "userAttributes": {
+            "name": "mahmoud",
+            "email": "mahmoud@gmail.com",
+            "phone_number": "+905315089434"
+        },
+        "validationData": null
+    },
+    "response": {
+        "autoConfirmUser": false,
+        "autoVerifyEmail": false,
+        "autoVerifyPhone": false
     }
-  },
-  "response": {
-    "autoConfirmUser": false,
-    "autoVerifyEmail": false,
-    "autoVerifyPhone": false
-  }
 }

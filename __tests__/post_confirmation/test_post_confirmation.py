@@ -1,8 +1,13 @@
 import json
+import os
+from unittest import mock
 from unittest.mock import patch
 
 from __tests__.utils.extended_test_case import ExtendedTestCase, get_mock_file
 from __tests__.utils.mock_api_call import mock_make_api_call
+
+AWS_DEFAULT_REGION = "eu-central-1"
+os.environ[AWS_DEFAULT_REGION] = AWS_DEFAULT_REGION
 from src.functions.post_confirmation.handler import handler
 
 
@@ -42,6 +47,7 @@ class TestEmailAddress(ExtendedTestCase):
         mocked_created_client.assert_called_once()
 
 
+@mock.patch.dict(os.environ, {"AWS_DEFAULT_REGION": AWS_DEFAULT_REGION})
 class TestMobileNumber(ExtendedTestCase):
     def setUp(self) -> None:
         with open(get_mock_file("post_confirmation", "user_with_phone_number_event")) as json_file:
@@ -77,6 +83,7 @@ class TestMobileNumber(ExtendedTestCase):
         mocked_created_client.assert_called_once()
 
 
+@mock.patch.dict(os.environ, {"AWS_DEFAULT_REGION": AWS_DEFAULT_REGION})
 class TestGoogleExternalProvider(ExtendedTestCase):
     def setUp(self) -> None:
         with open(get_mock_file("post_confirmation", "user_with_google_event")) as json_file:
@@ -129,6 +136,7 @@ class TestGoogleExternalProvider(ExtendedTestCase):
         mocked_created_client.assert_called_once()
 
 
+@mock.patch.dict(os.environ, {"AWS_DEFAULT_REGION": AWS_DEFAULT_REGION})
 class TestAppleExternalProvider(ExtendedTestCase):
     def setUp(self) -> None:
         with open(get_mock_file("post_confirmation", "user_with_apple_event")) as json_file:
