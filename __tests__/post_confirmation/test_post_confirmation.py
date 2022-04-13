@@ -1,14 +1,15 @@
 import json
 from unittest.mock import patch
 
-from __tests__.utils.extended_test_case import ExtendedTestCase
+from __tests__.utils.extended_test_case import ExtendedTestCase, get_mock_file
 from __tests__.utils.mock_api_call import mock_make_api_call
 from src.functions.post_confirmation.handler import handler
 
 
 class TestEmailAddress(ExtendedTestCase):
     def setUp(self) -> None:
-        with open('mock_data/user_with_email_event.json') as json_file:
+        with open(get_mock_file("post_confirmation",
+                                "user_with_email_event")) as json_file:
             self.event = json.load(json_file)
 
     @patch('botocore.client.BaseClient._make_api_call',
@@ -43,7 +44,7 @@ class TestEmailAddress(ExtendedTestCase):
 
 class TestMobileNumber(ExtendedTestCase):
     def setUp(self) -> None:
-        with open('mock_data/user_with_phone_number_event.json') as json_file:
+        with open(get_mock_file("post_confirmation", "user_with_phone_number_event")) as json_file:
             self.event = json.load(json_file)
 
     @patch('botocore.client.BaseClient._make_api_call',
@@ -78,7 +79,7 @@ class TestMobileNumber(ExtendedTestCase):
 
 class TestGoogleExternalProvider(ExtendedTestCase):
     def setUp(self) -> None:
-        with open('mock_data/user_with_google_event.json') as json_file:
+        with open(get_mock_file("post_confirmation", "user_with_google_event")) as json_file:
             self.event = json.load(json_file)
 
     @patch('src.functions.post_confirmation.handler.create_client')
@@ -88,7 +89,8 @@ class TestGoogleExternalProvider(ExtendedTestCase):
                    {'operation_name': 'ListUsers', 'returned_data': {'Users': []}},
                    {'operation_name': 'AdminCreateUser', 'returned_data': {'User': {'Username': 'weArt'}}},
                    {'operation_name': 'AdminSetUserPassword', 'returned_data': 'done'},
-                   {'operation_name': 'AdminLinkProviderForUser', 'returned_data': 'done'}
+                   {'operation_name': 'AdminLinkProviderForUser', 'returned_data': 'done'},
+                   {'operation_name': 'AdminUpdateUserAttributes', 'returned_data': 'done'}
                ]
            ))
     def test_new_user(self, mocked_created_client):
@@ -110,7 +112,8 @@ class TestGoogleExternalProvider(ExtendedTestCase):
                    {'operation_name': 'ListUsers', 'returned_data': {'Users': [{'Username': "user1"}]}},
                    {'operation_name': 'AdminCreateUser', 'returned_data': {'User': {'Username': 'weArt'}}},
                    {'operation_name': 'AdminSetUserPassword', 'returned_data': 'done'},
-                   {'operation_name': 'AdminLinkProviderForUser', 'returned_data': 'done'}
+                   {'operation_name': 'AdminLinkProviderForUser', 'returned_data': 'done'},
+                   {'operation_name': 'AdminUpdateUserAttributes', 'returned_data': 'done'}
                ]
            ))
     def test_existing_user(self, mocked_created_client):
@@ -128,7 +131,7 @@ class TestGoogleExternalProvider(ExtendedTestCase):
 
 class TestAppleExternalProvider(ExtendedTestCase):
     def setUp(self) -> None:
-        with open('mock_data/user_with_apple_event.json') as json_file:
+        with open(get_mock_file("post_confirmation", "user_with_apple_event")) as json_file:
             self.event = json.load(json_file)
 
     @patch('src.functions.post_confirmation.handler.create_client')
@@ -138,7 +141,8 @@ class TestAppleExternalProvider(ExtendedTestCase):
                    {'operation_name': 'ListUsers', 'returned_data': {'Users': []}},
                    {'operation_name': 'AdminCreateUser', 'returned_data': {'User': {'Username': 'weArt'}}},
                    {'operation_name': 'AdminSetUserPassword', 'returned_data': 'done'},
-                   {'operation_name': 'AdminLinkProviderForUser', 'returned_data': 'done'}
+                   {'operation_name': 'AdminLinkProviderForUser', 'returned_data': 'done'},
+                   {'operation_name': 'AdminUpdateUserAttributes', 'returned_data': 'done'}
                ]
            ))
     def test_new_user(self, mocked_created_client):
@@ -160,7 +164,8 @@ class TestAppleExternalProvider(ExtendedTestCase):
                    {'operation_name': 'ListUsers', 'returned_data': {'Users': [{'Username': "user1"}]}},
                    {'operation_name': 'AdminCreateUser', 'returned_data': {'User': {'Username': 'weArt'}}},
                    {'operation_name': 'AdminSetUserPassword', 'returned_data': 'done'},
-                   {'operation_name': 'AdminLinkProviderForUser', 'returned_data': 'done'}
+                   {'operation_name': 'AdminLinkProviderForUser', 'returned_data': 'done'},
+                   {'operation_name': 'AdminUpdateUserAttributes', 'returned_data': 'done'}
                ]
            ))
     def test_existing_user(self, mocked_created_client):
@@ -182,4 +187,3 @@ class TestGeneralCases(ExtendedTestCase):
         event = None
 
         self.assertRaisesWithMessage(AttributeError, "Event is required!", handler, event, context)
-

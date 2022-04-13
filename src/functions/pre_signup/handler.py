@@ -64,8 +64,11 @@ def handler(event, context):
         if "validationData" not in request or request["validationData"] is None:
             raise AttributeError('Wrong captcha: validationData is missing')
 
-        if not hasattr(request["validationData"], "recaptchaToken"):
+        if "recaptchaToken" not in request["validationData"]:
             raise AttributeError('Wrong captcha: recaptchaToken is missing')
+
+        if not request["validationData"]["recaptchaToken"]:
+            raise AttributeError('Wrong captcha: recaptchaToken is not provided')
 
         validation_data = request["validationData"]["recaptchaToken"]
 
