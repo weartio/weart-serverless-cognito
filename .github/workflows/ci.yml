@@ -28,8 +28,6 @@ jobs:
         pip install -r requirements.txt
     - name: Python - Run unittests
       run: python -m unittest discover
-    - name: build
-      run: npm run build
     - name: Nodejs - Run unittests
       run: npm run test
     - name: Build coverage file
