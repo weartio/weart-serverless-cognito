@@ -1,4 +1,8 @@
 import json
+import os
+
+AWS_DEFAULT_REGION = "eu-central-1"
+os.environ[AWS_DEFAULT_REGION] = AWS_DEFAULT_REGION
 
 from __tests__.utils.extended_test_case import ExtendedTestCase, get_mock_file
 from src.functions.post_confirmation.core.users import EMAIL, MOBILE, GOOGLE, APPLE
