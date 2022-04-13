@@ -29,7 +29,7 @@ jobs:
     - name: Python - Run unittests
       run: python -m unittest discover
     - name: NPM - Install dependencies
-      run: npm run install
+      run: npm install
     - name: Nodejs - Run unittests
       run: npm run test
     - name: Build coverage file
