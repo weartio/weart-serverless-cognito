@@ -10,6 +10,7 @@ functions:
       SENDER_EMAIL: ${self:custom.cognito.keys.SENDER_EMAIL}
       SLACK_WEBHOOK_URL: ${self:custom.cognito.keys.SLACK_WEBHOOK_URL}
       STAGE: ${self:provider.stage}
+      INTERCOM_ACCESS_TOKEN: ${self:custom.cognito.intercomAccessToken, ""} # if the intercomAccessToken not specified, configure it as empty string
     timeout: 10 # optional, in seconds, default is 6
     role: LambdaTriggerRole
 
@@ -24,6 +25,7 @@ functions:
       TWILLIO_SENDING_NUMBER: ${self:custom.cognito.keys.TWILLIO_SENDING_NUMBER}
       SLACK_WEBHOOK_URL: ${self:custom.cognito.keys.SLACK_WEBHOOK_URL}
       STAGE: ${self:provider.stage}
+      INTERCOM_ACCESS_TOKEN: ${self:custom.cognito.intercomAccessToken, ""} # if the intercomAccessToken not specified, configure it as empty string
     timeout: 10 # optional, in seconds, default is 6
     role: LambdaTriggerRole
 

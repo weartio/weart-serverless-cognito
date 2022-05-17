@@ -5,9 +5,10 @@ const https = require('https');
  * @param host
  * @param url
  * @param body
+ * @param headers
  * @returns {Promise<unknown>}
  */
-export function postRequest(host, url, body) {
+export function postRequest(host, url, body, headers={}) {
     const options = {
         hostname: host,
         path: url,
@@ -15,6 +16,7 @@ export function postRequest(host, url, body) {
         port: 443, // 👈️ replace with 80 for HTTP requests
         headers: {
             'Content-Type': 'application/json',
+            ...headers
         },
     };
 
