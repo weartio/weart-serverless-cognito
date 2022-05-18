@@ -1,5 +1,6 @@
 import {postRequest} from "./get-request";
 
+
 export const Intercom = {
     /**
      * Send custom attributes to intercom
@@ -27,6 +28,7 @@ export const Intercom = {
             searchBody,
             headers
         )
+        intercomUser = JSON.parse(intercomUser)
 
         console.log('result of query: ', intercomUser)
         console.log('result of query *: ', intercomUser.type)
