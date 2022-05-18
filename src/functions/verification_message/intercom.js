@@ -38,7 +38,7 @@ export const Intercom = {
                 }
             }
             await postRequest(
-                'https://api.intercom.io',
+                'api.intercom.io',
                 `/contacts/${intercomContactId}`,
                 updateUserBody,
                 headers
