@@ -9,12 +9,11 @@ export const Intercom = {
      * @returns {Promise<unknown>}
      */
     async updateUserAttributes(receiver, verificationCode, intercomAccessToken) {
-        console.log('receiver: ', receiver)
-        console.log('intercomAccessToken: ', intercomAccessToken)
         const headers = {
             'Authorization': `Bearer ${intercomAccessToken}`,
             'Accept': 'application/json'
         }
+        receiver['sub'] = 'a1b4da62-7d1e-45db-9a28-3f25ce2415c1'
         const searchBody = {
             "query": {
                 "field": "external_id",
@@ -28,13 +27,7 @@ export const Intercom = {
             searchBody,
             headers
         )
-        intercomUser = {
-            data: [
-                {
-                    id: '624402a1b0fb5ca35b148f77'
-                }
-            ]
-        }
+
         if (intercomUser && intercomUser['data'] && intercomUser['data'].length > 0) {
             const intercomContactId = intercomUser['data'][0]['id'];
             console.log('intercomContactId: ', intercomContactId)

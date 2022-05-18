@@ -22,8 +22,6 @@ export function postRequest(host, url, body, headers={}, httpMethod='POST') {
     };
 
     return new Promise((resolve, reject) => {
-        console.log('headers: ', options.headers)
-        console.log('host: ', body)
         const req = https.request(options, res => {
             let rawData = '';
 
@@ -32,7 +30,6 @@ export function postRequest(host, url, body, headers={}, httpMethod='POST') {
             });
 
             res.on('end', () => {
-                console.log('done: ', rawData)
                 try {
                     resolve(rawData);
                 } catch (err) {
