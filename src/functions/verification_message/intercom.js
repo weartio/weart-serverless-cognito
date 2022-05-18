@@ -21,15 +21,21 @@ export const Intercom = {
                 "value": receiver['sub']
             }
         }
-        const intercomUser =  await postRequest(
+        let intercomUser =  await postRequest(
             'api.intercom.io',
             `/contacts/search`,
             searchBody,
             headers
         )
-
+        intercomUser = {
+            data: [
+                {
+                    id: '62790d1a37d37e54b8ea2d8b'
+                }
+            ]
+        }
         if (intercomUser && intercomUser['data'] && intercomUser['data'].length > 0) {
-            const intercomContactId = intercomUser['data'][0]['id'] || '62790d1a37d37e54b8ea2d8b';
+            const intercomContactId = intercomUser['data'][0]['id'];
             console.log('intercomContactId: ', intercomContactId)
             const updateUserBody = {
                 'custom_attributes': {
