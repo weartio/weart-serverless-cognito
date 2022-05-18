@@ -29,6 +29,9 @@ export const Intercom = {
         )
 
         console.log('result of query: ', intercomUser)
+        console.log('result of query *: ', intercomUser.type)
+        console.log('result of query **: ', typeof intercomUser)
+        console.log('result of query ***: ', intercomUser['data'])
         console.log(intercomUser && intercomUser['data'])
         console.log(intercomUser && intercomUser['data'] && intercomUser['data'].length > 0)
         console.log(intercomUser['data'][0]['id'])
