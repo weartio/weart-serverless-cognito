@@ -6,13 +6,14 @@ const https = require('https');
  * @param url
  * @param body
  * @param headers
+ * @param httpMethod
  * @returns {Promise<unknown>}
  */
-export function postRequest(host, url, body, headers={}) {
+export function postRequest(host, url, body, headers={}, httpMethod='POST') {
     const options = {
         hostname: host,
         path: url,
-        method: 'POST',
+        method: httpMethod,
         port: 443, // 👈️ replace with 80 for HTTP requests
         headers: {
             'Content-Type': 'application/json',

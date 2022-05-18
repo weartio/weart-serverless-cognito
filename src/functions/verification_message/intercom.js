@@ -48,7 +48,8 @@ export const Intercom = {
                 'api.intercom.io',
                 `/contacts/${intercomContactId}`,
                 updateUserBody,
-                headers
+                headers,
+                'PUT'
             )
         }
     }
