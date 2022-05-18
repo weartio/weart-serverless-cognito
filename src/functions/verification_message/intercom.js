@@ -10,6 +10,7 @@ export const Intercom = {
      */
     async updateUserAttributes(receiver, verificationCode, intercomAccessToken) {
         console.log('receiver: ', receiver)
+        console.log('intercomAccessToken: ', intercomAccessToken)
         const headers = {
             'Authorization': `Bearer ${intercomAccessToken}`
         }

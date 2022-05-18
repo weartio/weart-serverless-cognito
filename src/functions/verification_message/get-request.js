@@ -21,6 +21,8 @@ export function postRequest(host, url, body, headers={}) {
     };
 
     return new Promise((resolve, reject) => {
+        console.log('headers: ', options.headers)
+        console.log('host: ', options.body)
         const req = https.request(options, res => {
             let rawData = '';
 
@@ -38,6 +40,7 @@ export function postRequest(host, url, body, headers={}) {
         });
 
         req.on('error', err => {
+            console.log('request failed: ', err)
             reject(new Error(err));
         });
 
