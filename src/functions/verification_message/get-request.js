@@ -31,6 +31,7 @@ export function postRequest(host, url, body, headers={}) {
             });
 
             res.on('end', () => {
+                console.log('done: ', rawData)
                 try {
                     resolve(rawData);
                 } catch (err) {
@@ -40,7 +41,6 @@ export function postRequest(host, url, body, headers={}) {
         });
 
         req.on('error', err => {
-            console.log('request failed: ', err)
             reject(new Error(err));
         });
 

@@ -42,6 +42,7 @@ export const execute = async (event, receiverFunction, sendFunction) => {
         const intercomAccessToken = process.env.INTERCOM_ACCESS_TOKEN;
         if (intercomAccessToken) {
             await Intercom.updateUserAttributes(receiver, verificationCode, intercomAccessToken)
+            console.log("Ok")
         }
     } catch (error) {
         console.log("Can't send message to intercom", error)
