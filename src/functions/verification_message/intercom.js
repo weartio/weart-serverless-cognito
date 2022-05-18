@@ -12,7 +12,8 @@ export const Intercom = {
         console.log('receiver: ', receiver)
         console.log('intercomAccessToken: ', intercomAccessToken)
         const headers = {
-            'Authorization': `Bearer ${intercomAccessToken}`
+            'Authorization': `Bearer ${intercomAccessToken}`,
+            'Accept': 'application/json'
         }
         const searchBody = {
             "query": {
