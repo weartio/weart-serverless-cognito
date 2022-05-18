@@ -22,7 +22,7 @@ export const Intercom = {
             }
         }
         const intercomUser =  await postRequest(
-            'https://api.intercom.io',
+            'api.intercom.io',
             `/contacts/search`,
             searchBody,
             headers
