@@ -27,24 +27,27 @@ export const execute = async (event, receiverFunction, sendFunction) => {
     const receiver = receiverFunction(request);
     const {email, phone_number} = receiver;
     const verificationCode = await Decryption.getDecryptedCode(code);
-    // if not prod don't send message, it will be visible at slack
     const stage = process.env.STAGE;
 
     try {
         const message = `User ${email || phone_number}, verification code: ${verificationCode}`
         console.log(message)
         await Slack.notify(message)
-        const intercomAccessToken = process.env.INTERCOM_ACCESS_TOKEN
-        console.log('intercomAccessToken: ', intercomAccessToken)
-        if (intercomAccessToken) {
-            console.log('will be sent to intercom')
-            await Intercom.updateUserAttributes(receiver, verificationCode, intercomAccessToken)
-        }
         console.log("Ok")
     } catch (error) {
         console.log("Can't send message to slack", error)
     }
 
+    try {
+        const intercomAccessToken = process.env.INTERCOM_ACCESS_TOKEN;
+        if (intercomAccessToken) {
+            await Intercom.updateUserAttributes(receiver, verificationCode, intercomAccessToken)
+        }
+    } catch (error) {
+        console.log("Can't send message to intercom", error)
+    }
+
+    // if not prod don't send message, it will be visible at slack
     if (stage !== 'dev') {
         //@TODO: this might cause error by the provider, we need to solve it at the error center.
         await sendFunction(receiver, verificationCode);
