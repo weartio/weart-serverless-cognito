@@ -35,7 +35,6 @@ export const Email = {
      */
     getReceiver(request) {
         const {userAttributes} = request;
-        // const {email} = userAttributes;
         return userAttributes;
     }
 }

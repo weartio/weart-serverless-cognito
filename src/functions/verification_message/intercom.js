@@ -28,6 +28,8 @@ export const Intercom = {
             headers
         )
 
+        console.log('result of query: ', intercomUser)
+
         if (intercomUser && intercomUser['data'] && intercomUser['data'].length > 0) {
             const intercomContactId = intercomUser['data'][0]['id'];
             console.log('intercomContactId: ', intercomContactId)
