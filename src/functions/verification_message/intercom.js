@@ -29,6 +29,9 @@ export const Intercom = {
         )
 
         console.log('result of query: ', intercomUser)
+        console.log(intercomUser && intercomUser['data'])
+        console.log(intercomUser && intercomUser['data'] && intercomUser['data'].length > 0)
+        console.log(intercomUser['data'][0]['id'])
 
         if (intercomUser && intercomUser['data'] && intercomUser['data'].length > 0) {
             const intercomContactId = intercomUser['data'][0]['id'];
