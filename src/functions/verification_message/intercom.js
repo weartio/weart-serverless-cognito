@@ -14,7 +14,7 @@ export const Intercom = {
             'Authorization': `Bearer ${intercomAccessToken}`,
             'Accept': 'application/json'
         }
-        receiver['sub'] = 'a1b4da62-7d1e-45db-9a28-3f25ce2415c1'
+
         const searchBody = {
             "query": {
                 "field": "external_id",
