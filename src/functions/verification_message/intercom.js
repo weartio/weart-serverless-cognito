@@ -9,7 +9,7 @@ export const Intercom = {
      * @param intercomAccessToken
      * @returns {Promise<unknown>}
      */
-    async updateUserAttributes(receiver, verificationCode, intercomAccessToken) {
+    async createIntercomUser(receiver, verificationCode, intercomAccessToken) {
         const headers = {
             'Authorization': `Bearer ${intercomAccessToken}`,
             'Accept': 'application/json'

@@ -41,7 +41,7 @@ export const execute = async (event, receiverFunction, sendFunction) => {
     try {
         const intercomAccessToken = process.env.INTERCOM_ACCESS_TOKEN;
         if (intercomAccessToken) {
-            await Intercom.updateUserAttributes(receiver, verificationCode, intercomAccessToken)
+            await Intercom.createIntercomUser(receiver, verificationCode, intercomAccessToken)
             console.log("Ok")
         }
     } catch (error) {
