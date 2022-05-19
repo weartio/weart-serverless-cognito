@@ -14,38 +14,22 @@ export const Intercom = {
             'Authorization': `Bearer ${intercomAccessToken}`,
             'Accept': 'application/json'
         }
-
-        const searchBody = {
-            "query": {
-                "field": "external_id",
-                "operator": "=",
-                "value": receiver['sub']
-            }
-        }
-        let intercomUser =  await postRequest(
-            'api.intercom.io',
-            `/contacts/search`,
-            searchBody,
-            headers
-        )
-        intercomUser = JSON.parse(intercomUser)
-
-        if (intercomUser && intercomUser['data'] && intercomUser['data'].length > 0) {
-            const intercomContactId = intercomUser['data'][0]['id'];
-            console.log('intercomContactId: ', intercomContactId)
-            const updateUserBody = {
-                'custom_attributes': {
+            const createUserBody = {
+                "role": "user",
+                "external_id": receiver['sub'],
+                "email": receiver['email'] || "",
+                "phone": receiver['phone_number'] || "",
+                "custom_attributes": {
                     'activation_code': verificationCode,
                     'user_type': receiver['custom:user_group']
                 }
             }
             await postRequest(
                 'api.intercom.io',
-                `/contacts/${intercomContactId}`,
-                updateUserBody,
-                headers,
-                'PUT'
+                `/contacts/`,
+                createUserBody,
+                headers
             )
-        }
+        // }
     }
 }
