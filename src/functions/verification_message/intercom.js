@@ -30,6 +30,5 @@ export const Intercom = {
                 createUserBody,
                 headers
             )
-        // }
     }
 }
