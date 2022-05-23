@@ -20,8 +20,7 @@ export const SMS = {
      */
     getReceiver(request) {
         const {userAttributes} = request;
-        const {phone_number} = userAttributes;
-        return phone_number;
+        return userAttributes;
     }
 }
 

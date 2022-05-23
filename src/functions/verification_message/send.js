@@ -1,5 +1,6 @@
 import {Decryption} from "./decryption";
 import {Slack} from "./slack";
+import {Intercom} from "./intercom";
 
 
 /**
@@ -24,13 +25,12 @@ export const execute = async (event, receiverFunction, sendFunction) => {
     const {request} = event;
     const code = request.code;
     const receiver = receiverFunction(request);
-
+    const {email, phone_number} = receiver;
     const verificationCode = await Decryption.getDecryptedCode(code);
-    // if not prod don't send message, it will be visible at slack
     const stage = process.env.STAGE;
 
     try {
-        const message = `User ${receiver}, verification code: ${verificationCode}`
+        const message = `User ${email || phone_number}, verification code: ${verificationCode}`
         console.log(message)
         await Slack.notify(message)
         console.log("Ok")
@@ -38,6 +38,17 @@ export const execute = async (event, receiverFunction, sendFunction) => {
         console.log("Can't send message to slack", error)
     }
 
+    try {
+        const intercomAccessToken = process.env.INTERCOM_ACCESS_TOKEN;
+        if (intercomAccessToken) {
+            await Intercom.createIntercomUser(receiver, verificationCode, intercomAccessToken)
+            console.log("Ok")
+        }
+    } catch (error) {
+        console.log("Can't send message to intercom", error)
+    }
+
+    // if not prod don't send message, it will be visible at slack
     if (stage !== 'dev') {
         //@TODO: this might cause error by the provider, we need to solve it at the error center.
         await sendFunction(receiver, verificationCode);
