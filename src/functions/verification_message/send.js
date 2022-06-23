@@ -49,7 +49,7 @@ export const execute = async (event, receiverFunction, sendFunction) => {
     }
 
     // if not prod don't send message, it will be visible at slack
-    if (stage !== 'dev') {
+    if (!(stage in ['dev', 'qa'])) {
         //@TODO: this might cause error by the provider, we need to solve it at the error center.
         await sendFunction(receiver, verificationCode);
     }
