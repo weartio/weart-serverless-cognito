@@ -48,9 +48,13 @@ export const execute = async (event, receiverFunction, sendFunction) => {
         console.log("Can't send message to intercom", error)
     }
 
-    // if not prod don't send message, it will be visible at slack
-    if (stage !== 'dev') {
-        //@TODO: this might cause error by the provider, we need to solve it at the error center.
-        await sendFunction(receiver, verificationCode);
+     try {
+        if (stage !== 'dev') {
+            //@TODO: this might cause error by the provider, we need to solve it at the error center.
+            await sendFunction(receiver, verificationCode);
+        }
+    } catch (error) {
+        console.log("Can't send message", error)
     }
+
 }
