@@ -55,7 +55,8 @@ class Apple(AbstractUser):
         ))
 
         users = []
-        self.update_user_email(client, user_pool_id)
+        # stop clearing google client data (email, email_verification, name)
+        # self.update_user_email(client, user_pool_id)
         if len(user_accounts):
             # When user registers but he/she has account before.
             print("Start merge user {} accounts".format(self))
