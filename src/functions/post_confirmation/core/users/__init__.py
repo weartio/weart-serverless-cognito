@@ -51,8 +51,9 @@ def list_similar_users(client, user_pool_id, email, username):
     )
     users = []
     for user in response['Users']:
-        if 'Username' in user and user['Username'] != username and user['UserStatus'] != 'EXTERNAL_PROVIDER':
-            users.append(user)
+        if 'Username' in user and user['Username'] != username:
+            if 'UserStatus' in user and user['UserStatus'] != 'EXTERNAL_PROVIDER':
+                users.append(user)
     return users
 
 
