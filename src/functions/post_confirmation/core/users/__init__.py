@@ -51,7 +51,7 @@ def list_similar_users(client, user_pool_id, email, username):
     )
     users = []
     for user in response['Users']:
-        if 'Username' in user and user['Username'] != username:
+        if 'Username' in user and user['Username'] != username and user['UserStatus'] != 'EXTERNAL_PROVIDER':
             users.append(user)
     return users
 
@@ -61,24 +61,20 @@ def merge_users(client, user_pool_id, username, provider, user_id):
     # with admin_link_provider_for_user function
     print('> Linking user: ', username)
     print('> Provider Id: ', user_id)
-    try:
-        response = client.admin_link_provider_for_user(
-            UserPoolId=user_pool_id,
-            DestinationUser={
-                'ProviderName': 'Cognito',
-                'ProviderAttributeValue': username
-            },
-            SourceUser={
-                'ProviderName': provider,
-                'ProviderAttributeName': 'Cognito_Subject',
-                'ProviderAttributeValue': user_id
-            }
-        )
+    response = client.admin_link_provider_for_user(
+        UserPoolId=user_pool_id,
+        DestinationUser={
+            'ProviderName': 'Cognito',
+            'ProviderAttributeValue': username
+        },
+        SourceUser={
+            'ProviderName': provider,
+            'ProviderAttributeName': 'Cognito_Subject',
+            'ProviderAttributeValue': user_id
+        }
+    )
 
-        return response
-    except Exception as e:
-        print('exception in merge users: ', e)
-        pass
+    return response
 
 
 def create_native_user(client, user_pool_id, email):
