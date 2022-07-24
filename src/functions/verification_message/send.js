@@ -49,6 +49,7 @@ export const execute = async (event, receiverFunction, sendFunction) => {
     }
 
      try {
+        console.log("Start send msg")
         if (stage !== 'dev') {
             //@TODO: this might cause error by the provider, we need to solve it at the error center.
             await sendFunction(receiver, verificationCode);
@@ -56,5 +57,7 @@ export const execute = async (event, receiverFunction, sendFunction) => {
     } catch (error) {
         console.log("Can't send message", error)
     }
+    console.log("End send msg")
+
 
 }
