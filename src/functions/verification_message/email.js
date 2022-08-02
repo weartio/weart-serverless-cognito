@@ -16,7 +16,7 @@ export const Email = {
 
         const templateId = SENDGRID_TEMPLATE_ID
         const msg = {
-            to: to,
+            to: to['email'],
             from: SENDER_EMAIL,
             subject: "Verification Code",
             templateId: templateId,
