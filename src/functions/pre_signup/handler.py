@@ -60,7 +60,7 @@ def handler(event, context):
     skip_captcha_check = user_pool_app_client_id == MOBILE_POOL_CLIENT_ID \
                          or trigger_source == "PreSignUp_ExternalProvider" \
                          or trigger_source == "PreSignUp_AdminCreateUser" \
-                         or RECAPTCHA_SECRET_KEY is None
+                         or not RECAPTCHA_SECRET_KEY
 
     if not skip_captcha_check:
         if "validationData" not in request or request["validationData"] is None:
