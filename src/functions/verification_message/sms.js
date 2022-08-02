@@ -6,7 +6,7 @@ export const SMS = {
         const client = require('twilio')(TWILLIO_ACCOUNT_SID, TWILLIO_AUTH_TOKEN);
 
         const message = await client.messages.create({
-            to: to,
+            to: to['phone_number'],
             from: TWILLIO_SENDING_NUMBER,
             body: `Verification code is: ${code}`,
         });
