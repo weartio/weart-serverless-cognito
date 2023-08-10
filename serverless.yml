@@ -1,6 +1,6 @@
 functions:
   customEmailSender:
-    runtime: nodejs18.x
+    runtime: nodejs14.x
     handler: ${self:custom.cognito.functionsPath}/verification_message/email.handler
     awsKmsKeyArn: !GetAtt KmsKey.Arn
     environment:
@@ -15,7 +15,7 @@ functions:
     role: LambdaTriggerRole
 
   customSMSSender:
-    runtime: nodejs18.x
+    runtime: nodejs14.x
     handler: ${self:custom.cognito.functionsPath}/verification_message/sms.handler
     awsKmsKeyArn: !GetAtt KmsKey.Arn
     environment:
