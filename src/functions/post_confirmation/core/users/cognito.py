@@ -7,7 +7,7 @@ class Cognito(AbstractUser):
         self.username = username
         self.cognito_id = cognito_id
         self.registration_method = MOBILE if phone_number else EMAIL
-        self.email = email
+        self.email = email.lower() if email else email
         self.phone_number = phone_number
         self.user_pool_id = user_pool_id
 
