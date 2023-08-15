@@ -6,7 +6,7 @@ from .abstract_user import AbstractUser
 class Apple(AbstractUser):
     def __init__(self, username, cognito_id, user_pool_id, email=None, phone_number=None, first_name=None,
                  last_name=None):
-        self.email = email.lower() if email else email
+        self.email = email
         self.username = username
         self.cognito_id = cognito_id
         self.registration_method = APPLE

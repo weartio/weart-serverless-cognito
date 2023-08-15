@@ -127,8 +127,4 @@ def handler(event, context):
     if trigger_source == "PreSignUp_AdminCreateUser":
         pass
 
-    email = user_attributes.get('email', None)
-    if email:
-        user_attributes['email'] = email.lower()
-
     return event

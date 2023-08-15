@@ -1,8 +1,7 @@
+import boto3
 import json
 import os
 import sys
-
-import boto3
 
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 
@@ -108,6 +107,32 @@ def handler(event, context):
                 create_client(usr, platform, user_group, custom)
         else:
             create_client(current_user, platform, user_group, custom)
+
+    email = user_attributes.get('email', None)
+    sub = user_attributes.get('sub', None)
+    name = user_attributes.get('name', None)
+
+    try:
+        print('Sub: {}, email:{}, name:{}'.format(sub, email, name))
+        if email and sub:
+            response = client.admin_update_user_attributes(
+                UserPoolId=user_pool_id,
+                Username=sub,
+                UserAttributes=[
+                    {
+                        'Name': 'email',
+                        'Value': email.lower()
+                    },
+                    {
+                        'Name': 'name',
+                        'Value': name.lower() if name else name
+                    }
+                ]
+            )
+            print('admin_update_user_attributes response: {}'.format(response))
+    except Exception as e:
+        print('admin_update_user_attributes error: {}'.format(str(e)))
+
     return event
 
 

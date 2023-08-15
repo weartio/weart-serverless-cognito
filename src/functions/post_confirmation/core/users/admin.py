@@ -7,7 +7,7 @@ class Admin(AbstractUser):
         self.username = username
         self.cognito_id = user_pool_id
         self.registration_method = ADMIN
-        self.email = email.lower() if email else email
+        self.email = email
 
     def payload(self):
         pass

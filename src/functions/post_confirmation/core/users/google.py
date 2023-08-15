@@ -6,7 +6,7 @@ from .cognito import Cognito
 class Google(AbstractUser):
     def __init__(self, username, cognito_id, user_pool_id, email=None, phone_number=None, first_name=None,
                  last_name=None):
-        self.email = email.lower() if email else email
+        self.email = email
         if self.email is None:
             """
             This should never happened
