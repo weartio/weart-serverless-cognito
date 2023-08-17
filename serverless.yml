@@ -91,3 +91,16 @@ functions:
           trigger: CustomMessage
           existing: true
           forceDeploy: true
+
+  preTokenGeneration:
+    runtime: python3.8
+    handler: ${self:custom.cognito.functionsPath}/pre_token_generation/handler.handler
+    package:
+      include:
+        - "${self:custom.cognito.functionsPath}/pre_token_generation/handler.py"
+    events:
+      - cognitoUserPool:
+          pool: ${self:custom.currentStage}-users
+          trigger: PreTokenGeneration
+          existing: true
+          forceDeploy: true
