@@ -101,7 +101,7 @@ functions:
     events:
       - cognitoUserPool:
           pool: ${self:custom.currentStage}-users
-          trigger: PreAuthentication
+          trigger: PreTokenGeneration
           existing: true
           forceDeploy: true
 
